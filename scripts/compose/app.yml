@@ -1,0 +1,48 @@
+version: '2.1'
+
+services:
+  couchdb:
+    build:
+      context: ../docker
+      dockerfile: Dockerfile.couchdb
+    image: couchdb:$TAG
+    ports:
+      - "5984:5984"
+      - "5986:5986"
+    networks:
+      omni:
+  casts:
+    build:
+      context: ../..
+      dockerfile: scripts/docker/Dockerfile.casts
+    image: casts:$TAG
+    depends_on:
+      couchdb:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    networks:
+      omni:
+  ui:
+    build:
+      context: ../..
+      dockerfile: scripts/docker/Dockerfile.ui
+    image: ui:$TAG
+    ports:
+      - "3000:3000"
+    networks:
+      omni:
+
+  httpd:
+    build:
+      context: ../docker
+      dockerfile: Dockerfile.httpd
+    image: httpd:$TAG
+    ports:
+      - "80:80"
+    networks:
+      omni:
+
+networks:
+  omni:
+    driver: bridge

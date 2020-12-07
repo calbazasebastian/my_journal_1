@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Casts</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+
+
+<div id="login">
+    <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
+    <div>
+        <form ref="login" method="post" action="http://localhost/couchdb/_session" target="dummyframe">
+            <label for="user">User:</label><br>
+            <input type="text" id="user" name="name" v-model="cUser">
+            <label for="lname">Pass:</label><br>
+            <input type="password" id="lname" name="password" v-model="cPass"><br><br>
+            <button v-on:click="login">CouchDB Login</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    new Vue(
+        {
+            el: '#login',
+            data: {
+                cUser: "admin",
+                cPass: "123456"
+            },
+             methods: {
+                login() {
+
+ this.$refs.login.submit()
+                },
+            },
+
+        });
+
+
+
+</script>
+<br><br>
+<div id="dealer">
+    <div>
+        <label for="originatorId">OriginatorId:</label>
+        <input id="originatorId" v-model="originatorId"><br>
+
+        <label for="bondId">bondId:</label>
+        <input id="bondId" v-model="bondId"><br>
+
+        <label for="buySell">buySell:</label>
+        <input id="buySell" v-model="buySell"><br>
+
+        <label for="quantity">quantity:</label>
+        <input id="quantity" v-model="quantity"><br>
+
+        <label for="price">price:</label>
+        <input id="price" v-model="price"><br>
+
+        <label for="targetUserIds">targetUserIds:</label>
+        <input id="targetUserIds" v-model="targetUserIds"><br>
+
+        <button v-on:click="cast">Cast</button>
+    </div>
+
+    <p>{{response}}</p>
+</div>
+
+<script>
+    new Vue(
+        {
+            el: '#dealer',
+            data: {
+                originatorId:5555,
+                bondId:123,
+                buySell:"sell",
+                quantity:"2",
+                price:"1000",
+                targetUserIds:"123",
+                response: ""
+            },
+            methods: {
+                cast() {
+                    var vm=this;
+                    var config = {
+                      headers: {
+                        User: vm.originatorId,
+                      }
+                    }
+
+
+                    var data = {
+                      'price': vm.price,
+                      'quantity': vm.quantity,
+                      'targetUserIds': vm.targetUserIds.split(","),
+                    }
+
+                   axios.post("http://localhost/api/casts/"+this.bondId+"/"+this.buySell, data, config)
+                        .then((response) => {
+                          vm.response=response.data
+                        }, (error) => {
+                          console.log(error);
+                        });
+
+                },
+            },
+        });
+
+
+
+</script>
+
+
+<br><br>
+<div id="trader">
+    <div>
+        <label for="traderId">Trader Id -></label>
+        <input id="traderId" v-model="traderId">
+        <button v-on:click="subscribe">subscribe</button>
+    </div>
+
+    <div>
+        <p>Events</p>
+        <ul>
+            <li v-for="event in events" :key="event.doc.originatorId">
+                {{ event.doc }}
+            </li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    new Vue(
+        {
+            el: '#trader',
+            data: {
+                traderId:"111",
+                events: [],
+                eventSource: undefined
+            },
+            methods: {
+                subscribe() {
+                    this.events=[]
+                    if(this.eventSource !=undefined){
+                        this.eventSource.close()
+                    }
+                    this.eventSource = new EventSource("http://localhost/couchdb/casts/_changes?since=now&filter=casts/trader&traderId="+this.traderId+"&include_docs=true&heartbeat=30000&feed=eventsource&authorization=YWRtaW46MTIzNDU2"
+                       , { withCredentials: true });
+
+                    this.eventSource.onerror = function(e) {
+                        alert('EventSource error'+e);
+                    };
+
+                    var vm=this
+                    var sourceListener = function(e) {
+                        var data = JSON.parse(e.data);
+                        vm.events.push(data);
+                    };
+
+                    // start listening for events
+                    this.eventSource.addEventListener('message', sourceListener, false);
+                },
+            },
+        });
+
+
+
+</script>
+
+</body>
+
+</html>

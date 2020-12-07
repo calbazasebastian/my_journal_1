@@ -1,0 +1,6 @@
+{
+  "_id": "_design/casts",
+  "filters": {
+    "trader": "function(doc, req) { if(doc.targetUserIds.includes( Number(req.query.traderId))) { return true; }else { return false; }}"
+  }
+}

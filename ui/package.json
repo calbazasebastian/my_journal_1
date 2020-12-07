@@ -1,0 +1,11 @@
+{
+  "name": "omni-test",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "browser-sync start --server 'src' --files 'src' --single"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.24.6"
+  }
+}

@@ -1,0 +1,11 @@
+# syntax=docker/dockerfile:experimental
+FROM node:15.3.0-buster
+
+ENV LANG en_US.utf8
+
+ADD --chown=dev:dev ui /home/dev/ui
+WORKDIR /home/dev/ui
+RUN --mount=type=cache,id=deps,target=/home/dev/ui/node_modules \
+  npm install
+
+ENTRYPOINT npm run start

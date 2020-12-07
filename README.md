@@ -58,3 +58,9 @@ who knows
           
 #### Thought 7 
    Take a pause
+   
+
+#### Thought 8
+  - [ ] Code is intended for others also... embed a short demo.
+  
+     

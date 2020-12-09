@@ -6,45 +6,11 @@
     <title>Casts</title>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
 </head>
 
 <body>
 
-
-<div id="login">
-    <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
-    <div>
-        <form ref="login" method="post" action="http://localhost/couchdb/_session" target="dummyframe">
-            <label for="user">User:</label><br>
-            <input type="text" id="user" name="name" v-model="cUser">
-            <label for="lname">Pass:</label><br>
-            <input type="password" id="lname" name="password" v-model="cPass"><br><br>
-            <button v-on:click="login">CouchDB Login</button>
-        </form>
-    </div>
-</div>
-
-<script>
-    new Vue(
-        {
-            el: '#login',
-            data: {
-                cUser: "admin",
-                cPass: "123456"
-            },
-             methods: {
-                login() {
-
- this.$refs.login.submit()
-                },
-            },
-
-        });
-
-
-
-</script>
-<br><br>
 <div id="dealer">
     <div>
         <label for="originatorId">OriginatorId:</label>
@@ -117,7 +83,47 @@
 
 
 <br><br>
+
+
+<div id="login">
+    <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
+    <div>
+        <form ref="login" method="post" action="http://localhost/couchdb/_session" target="dummyframe">
+            <label for="user">User:</label><br>
+            <input type="text" id="user" name="name" v-model="cUser">
+            <label for="lname">Pass:</label><br>
+            <input type="password" id="lname" name="password" v-model="cPass"><br><br>
+            <button v-on:click="login"> Login CouchDB</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    new Vue(
+        {
+            el: '#login',
+            data: {
+                cUser: "admin",
+                cPass: "123456"
+            },
+             methods: {
+                login() {
+
+ this.$refs.login.submit()
+                },
+            },
+
+        });
+
+
+
+</script>
+<br><br>
+
+
 <div id="trader">
+
+
     <div>
         <label for="traderId">Trader Id -></label>
         <input id="traderId" v-model="traderId">

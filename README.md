@@ -61,6 +61,16 @@ who knows
    
 
 #### Thought 8
-  - [ ] Code is intended for others also... embed a short demo.
+  - [ ] Code is intended for others also... embed a short gif.
   
-     
+#### Thought 9
+   Integrate more tools that I know/want to know. Choose other tools to tie them together.
+   
+#### Thought 10
+   Do the same things with multiple tools(languages, frameworks, libraries). Make them composable.
+
+#### Thought 11
+   Multiple ways of deployment, monolitic or "microserviced". Again... composable all down to deployment level. Hmm.. is there any other kind? 
+   
+#### Though 12
+   UUuuh I'm soo "intelligent" thought went through my mind...please... stop... But I kinda like this... it s funny in a way.      

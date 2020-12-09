@@ -50,7 +50,7 @@ object CastsApi extends IOApp {
   def run(args: List[String]): IO[ExitCode] = {
     BlazeServerBuilder[IO](global)
       .bindHttp(8080,"0.0.0.0")
-      .withHttpApp(Logger.httpApp(true, true)(castRoutes))
+      .withHttpApp(Logger.httpApp(true, true)(corsService))
       .serve
       .compile
       .drain

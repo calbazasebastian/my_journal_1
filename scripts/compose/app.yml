@@ -14,7 +14,7 @@ services:
   casts:
     build:
       context: ../..
-      dockerfile: scripts/docker/Dockerfile.casts
+      dockerfile: scripts/docker/Dockerfile.trading.scala.app
     image: casts:$TAG
     depends_on:
       couchdb:
